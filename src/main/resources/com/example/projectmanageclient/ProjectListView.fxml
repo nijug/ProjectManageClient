@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Label?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
+<?import javafx.scene.control.ChoiceBox?>
+<VBox xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.projectmanageclient.controller.ProjectListController">
+    <children>
+        <Label text="Project List" />
+
+        <TableView fx:id="projectTableView">
+            <columns>
+                <TableColumn fx:id="nameColumn" text="Name" prefWidth="150" />
+                <TableColumn fx:id="descriptionColumn" text="Description" prefWidth="300" />
+                <TableColumn fx:id="dateStartedColumn" text="Date Started" prefWidth="100" />
+                <TableColumn fx:id="dateEndedColumn" text="Date Ended" prefWidth="100" />
+                <TableColumn fx:id="priorityColumn" text="Priority" prefWidth="100" />
+            </columns>
+        </TableView>
+        <Button text="Delete" onAction="#onDeleteButtonClick" />
+        <Button text="Modify" onAction="#onModifyButtonClick" />
+
+    </children>
+</VBox>
