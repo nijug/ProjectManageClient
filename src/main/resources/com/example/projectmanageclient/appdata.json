@@ -1,5 +1,0 @@
-{
-  "URL": "http://localhost:8080/project",
-  "create_endpoint": "/create",
-  "read_all_endpoint": "/all"
-}

@@ -9,5 +9,6 @@
       <ButtonBar prefHeight="40.0" prefWidth="200.0" />
       <Button fx:id="addProjectButton" layoutX="140.0" layoutY="40.0" mnemonicParsing="false" onAction="#onAddProjectButtonClick" text="Add project" />
       <Button fx:id="showProjectButton" layoutX="134.0" layoutY="214.0" mnemonicParsing="false" onAction="#onShowProjectButtonClick" text="Show projects" />
+      <Button fx:id="loginButton" layoutX="134.0" layoutY="414.0" mnemonicParsing="false" onAction="#onLoginButtonClick" text="Login" />
    </children>
 </AnchorPane>

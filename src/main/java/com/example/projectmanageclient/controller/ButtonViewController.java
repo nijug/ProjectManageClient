@@ -15,10 +15,10 @@ public class ButtonViewController {
 
     @FXML
     public Button addProjectButton;
+
     @FXML
-    public Button deleteProjectButton;
-    @FXML
-    public Button updateProjectButton;
+
+    public Button loginButton;
     @FXML
     public Button showProjectButton;
 
@@ -29,21 +29,15 @@ public class ButtonViewController {
         openNewWindow("/com/example/projectmanageclient/AddView.fxml", "Add Project");
     }
 
-    @FXML
-    private void onDeleteProjectButtonClick(ActionEvent e) {
-        openNewWindow("AddProjectWindow.fxml", "Add Project");
-    }
-
-    @FXML
-    private void onUpdateProjectButtonClick(ActionEvent e) {
-        openNewWindow("AddProjectWindow.fxml", "Add Project");
-    }
 
     @FXML
     private void onShowProjectButtonClick(ActionEvent e) {
         openNewWindow("/com/example/projectmanageclient/ProjectListView.fxml", "Show Project");
     }
 
+    public void onLoginButtonClick(ActionEvent e) {
+        openNewWindow("/com/example/projectmanageclient/LoginView.fxml", "Login");
+    }
     private void openNewWindow(String fxmlFileName, String title) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFileName));
@@ -56,6 +50,7 @@ public class ButtonViewController {
             ex.printStackTrace();
         }
     }
+
 
 }
 

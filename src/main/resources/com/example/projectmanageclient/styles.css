@@ -1,0 +1,345 @@
+.root {
+    -fx-font-family: "Arial", sans-serif;
+    -fx-background-color: #f8f9fa;
+}
+
+#projectContainer {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 15;
+    -fx-border-width: 0;
+}
+#wrapper{
+    -fx-padding: 40;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.1), 10, 0, 0, 0);
+}
+.form {
+    -fx-max-width: 400px;
+}
+
+.input {
+    -fx-padding: 8px;
+    -fx-border-color: #ced4da;
+    -fx-border-radius: 4px;
+}
+
+
+.add-project {
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: white;
+    -fx-padding: 10px 15px;
+    -fx-border-radius: 5px;
+    -fx-cursor: hand;
+}
+
+.add-project:hover {
+    -fx-background-color: #218838;
+}
+
+.card {
+    -fx-background-color: #fff;
+    -fx-padding: 30;
+    -fx-border-color: #ccc;
+    -fx-border-width: 1px;
+    -fx-border-radius: 5px;
+}
+
+.card-title {
+    -fx-text-fill: black;
+    -fx-font-size: 1.6em;
+}
+
+.card:hover {
+    -fx-background-color: #ddd;
+    -fx-background-radius: 5;
+}
+
+.bold-label {
+    -fx-font-weight: bold;
+}
+
+.tile-pane {
+    -fx-background-color: #fff;
+}
+
+.bold-text {
+    -fx-font-weight: bold;
+}
+.container {
+    -fx-padding: 40;
+    -fx-background-color: #ffffff;
+    -fx-border-radius: 10px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.1), 10, 0, 0, 0);
+}
+
+.form-group {
+    -fx-padding: 10px 0;
+    -fx-text-fill: #495057;
+    font-size: 1.1em;
+}
+
+.text-field-control {
+    -fx-padding: 8px;
+    -fx-border-color: #ced4da;
+    -fx-border-radius: 4px;
+    -fx-text-fill: black;
+}
+
+.date-picker-control {
+    -fx-border-color: #ced4da;
+    -fx-text-fill: black;
+}
+
+.date-picker-control .arrow-button {
+    -fx-background-color: transparent;
+}
+
+.date-picker-control .arrow {
+    -fx-background-color: black;
+}
+
+.date-picker-control:focused {
+    -fx-border-width: 1px;
+}
+
+.date-picker-popup .date-cell {
+    -fx-padding: 2px;
+}
+
+.date-picker-popup .date-cell:hover {
+    -fx-background-color: #f0f8ff;
+}
+
+.choice-box-control {
+    -fx-border-color: #ced4da;
+    -fx-text-fill: black; /* change text color here */
+    -fx-background-color: white; /* change background color here */
+    }
+
+.choice-box-control .context-menu .menu-item:focused {
+    -fx-background-color: #ced4da; /* change hover color here */
+    -fx-text-fill: black; /* change text color here */
+}
+
+.btn-primary {
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: white;
+    -fx-padding: 10px 15px;
+    -fx-border-radius: 5px;
+}
+
+.btn-primary:hover {
+    -fx-background-color: #218838;
+}
+
+.btn-error {
+    -fx-background-color: #dc3545;
+    -fx-text-fill: white;
+    -fx-padding: 10px 15px;
+    -fx-border-radius: 5px;
+}
+
+.btn-error:hover {
+    -fx-background-color: #c82333;
+}
+
+.button-box {
+    -fx-alignment: center;
+    -fx-spacing: 10px;
+}
+
+.scroll-pane {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-padding-left: 10;
+}
+
+.scroll-pane .viewport {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar .thumb {
+    -fx-background-color: #4CAF50;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+}
+#header {
+    -fx-background-color: #4CAF50;
+    -fx-padding: 20px;
+}
+
+.siteTitle {
+    -fx-text-fill: white;
+    -fx-font-size: 1.5em;
+}
+
+#englishButton, #polishButton {
+    -fx-background-color: white;
+    -fx-text-fill: black;
+    -fx-border-radius: 5px;
+    -fx-padding: 5px 10px;
+}
+
+#englishButton:hover, #polishButton:hover {
+    -fx-background-color: #ccc;
+}
+
+.toggle-button {
+    -fx-background-color: #ccc;
+    -fx-background-radius: 30px;
+    -fx-pref-width: 60px;
+    -fx-pref-height: 34px;
+}
+
+.toggle-button:selected {
+    -fx-background-color: #2196F3;
+}
+
+.card-selected {
+    -fx-background-color: #ddd;  /* adjust this to the color you want */
+}
+
+.dark.root {
+    -fx-background-color: #333;
+
+}
+
+.dark .container {
+    -fx-background-color: #444;
+    -fx-text-fill: #fff;
+}
+
+.dark .label {
+    -fx-text-fill: #ddd;
+}
+
+.dark .text-field {
+    -fx-background-color: #555;
+    -fx-text-fill: #fff;
+    -fx-border-color: #777;
+}
+
+.dark .choice-box {
+    -fx-background-color: #555;
+    -fx-text-fill: #fff;
+    -fx-border-color: #777;
+}
+
+.dark .toggle-button {
+    -fx-background-color: #777;
+}
+
+.dark .toggle-button:selected {
+    -fx-background-color: #343333;
+}
+
+.dark .card {
+    -fx-background-color: #555;
+    -fx-border-color: #333;
+}
+
+.dark .card:hover {
+    -fx-background-color: #444;
+}
+
+.dark .card-selected {
+    -fx-background-color: #444;
+}
+
+
+.dark .scroll-pane {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-padding-left: 10;
+}
+
+.dark .scroll-bar.thumb {
+    -fx-background-color: #4CAF50;
+}
+
+.dark #projectContainer {
+    -fx-background-color: #444;
+
+}
+
+.dark #wrapper {
+    -fx-padding: 40;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.1), 10, 0, 0, 0);
+
+}
+
+.dark .form-group {
+    -fx-text-fill: #fff;
+}
+
+.dark .text-field-control {
+    -fx-background-color: #555;
+    -fx-text-fill: #fff;
+    -fx-border-color: #777;
+}
+
+.dark .date-picker-control {
+    -fx-background-color: #555;
+    -fx-text-fill: #fff;
+    -fx-border-color: #777;
+}
+
+.dark .date-picker {
+    -fx-background-color: #555;
+    -fx-text-fill: #fff;
+}
+
+.dark .date-picker .day-cell {
+    -fx-background-color: #555;
+    -fx-text-fill: #fff;
+}
+
+.dark .date-picker .day-cell:selected {
+    -fx-background-color: #777;
+    -fx-text-fill: #fff;
+}
+
+.dark .date-picker-popup {
+    -fx-background-color: #555;
+}
+
+.dark .date-picker-popup > .month-year-pane {
+    -fx-background-color: #555;
+    -fx-text-fill: #fff;
+}
+
+.dark .choice-box-control {
+    -fx-background-color: #555;
+    -fx-text-fill: #fff;
+    -fx-border-color: #777;
+}
+
+.dark Text {
+    -fx-fill: #fff;
+}
+
+
+.dark .choice-box-control .context-menu .menu-item:focused {
+    -fx-background-color: #444;
+    -fx-text-fill: white;
+}
+
+.dark .choice-box-control .context-menu .menu-item {
+    -fx-background-color: #555;
+    -fx-text-fill: white;
+}
+
+.dark #englishButton, .dark #polishButton {
+    -fx-background-color: #333;
+    -fx-text-fill: #fff;
+}
+
+.dark #englishButton:hover, .dark #polishButton:hover {
+    -fx-background-color: #555;
+}
+
+
+

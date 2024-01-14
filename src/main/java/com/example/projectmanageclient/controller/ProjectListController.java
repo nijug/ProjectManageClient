@@ -1,119 +1,246 @@
 package com.example.projectmanageclient.controller;
-import com.example.projectmanageclient.model.Project;
-import com.example.projectmanageclient.service.ProjectService;
+import com.example.projectmanageclient.LanguageManager;
 
-import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
-import java.sql.Date;
-import java.text.SimpleDateFormat;
-import java.util.List;
-import java.util.Optional;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.TilePane;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import org.ProjectService.Project;
+import org.ProjectService.ProjectService;
+import java.util.ResourceBundle;
+import java.util.Locale;
+
+
+import java.io.IOException;
+import java.util.Objects;
 
 
 public class ProjectListController {
-    @FXML
-    private TableView<Project> projectTableView;
-
-    @FXML
-    private TableColumn<Project, String> nameColumn;
-    @FXML
-    private TableColumn<Project, String> descriptionColumn;
-    @FXML
-    private TableColumn<Project, String> dateStartedColumn;
-    @FXML
-    private TableColumn<Project, String> dateEndedColumn;
-    @FXML
-    private TableColumn<Project, String> priorityColumn;
 
 
+    @FXML
+    private TilePane projectContainer;
+
+    @FXML
+    private ScrollPane wrapper;
+
+    @FXML
+    private Label siteTitle;
+    @FXML
+    private Button englishButton;
+    @FXML
+    private Button polishButton;
+    @FXML
+    private Button deleteButton;
+    @FXML
+    private Button addProjectButton;
+    @FXML
+    private ToggleButton darkModeToggle;
 
 
+    private ResourceBundle bundle;
     private ProjectService ps;
 
-    public void initialize() {
+    private LanguageManager languageManager;
 
-        nameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getName()));
-        descriptionColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDescription()));
-        dateStartedColumn.setCellValueFactory(cellData -> {
-            Date dateStarted = cellData.getValue().getDateStarted();
-            String formattedDate = dateStarted != null ? dateStarted.toString() : "";
-            return new SimpleStringProperty(formattedDate);
+    private Project selectedProject;
+    public void initialize() {
+        ps = ProjectService.getInstance(LoginController.getAccessToken());
+        languageManager = LanguageManager.getInstance();
+        englishButton.setOnAction(event -> changeLanguage(new Locale("en")));
+        polishButton.setOnAction(event -> changeLanguage(new Locale("pl")));
+        updateTexts();
+        darkModeToggle.selectedProperty().addListener((obs, wasSelected, isSelected) -> {
+            Node root = darkModeToggle.getScene().getRoot();
+            if (isSelected) {
+                root.getStyleClass().add("dark");
+            } else {
+                root.getStyleClass().remove("dark");
+            }
         });
 
-        dateEndedColumn.setCellValueFactory(cellData -> {
-            Date dateEnded = cellData.getValue().getDateEnded();
-            String formattedDate = dateEnded != null ? dateEnded.toString() : "";
-            return new SimpleStringProperty(formattedDate);
-        });;
-        priorityColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getPriority()));
 
-
-        ps = ProjectService.getInstance();
-        projectTableView.getItems().addAll(ps.readProjects());
+        populateView();
     }
 
-    @FXML
-    private void onDeleteButtonClick() {
-        Project selectedProject = projectTableView.getSelectionModel().getSelectedItem();
-        ps.deleteProjects(selectedProject.getId());
-        projectTableView.getItems().remove(selectedProject);
+    private void updateTexts() {
+        bundle = languageManager.getResourceBundle();
+        siteTitle.setText(bundle.getString("title"));
+        deleteButton.setText(bundle.getString("delete"));
+        addProjectButton.setText(bundle.getString("addProject"));
     }
 
-    public void onModifyButtonClick() {
-        Project selectedProject = projectTableView.getSelectionModel().getSelectedItem();
+    private void populateView() {
+        Project[] projects = ps.readProjects();
 
-        if (selectedProject != null) {
-            // Prompt for a new project name
-            TextInputDialog nameDialog = new TextInputDialog(selectedProject.getName());
-            nameDialog.setTitle("Modify Name");
-            nameDialog.setHeaderText("Enter new name for the project:");
-            Optional<String> newNameResult = nameDialog.showAndWait();
+        projectContainer.setHgap(10);
+        projectContainer.setVgap(10);
+        projectContainer.setPrefColumns(3);
+        projectContainer.setPrefColumns(3);
+        projectContainer.setTileAlignment(javafx.geometry.Pos.CENTER);
+        projectContainer.setPadding(new Insets(30));
+        wrapper.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        projectContainer.prefWidthProperty().bind(wrapper.widthProperty());
 
-            newNameResult.ifPresent(newName -> {
-                // Prompt for a new project description
-                TextInputDialog descriptionDialog = new TextInputDialog(selectedProject.getDescription());
-                descriptionDialog.setTitle("Modify Description");
-                descriptionDialog.setHeaderText("Enter new description for the project:");
-                Optional<String> newDescriptionResult = descriptionDialog.showAndWait();
 
-                newDescriptionResult.ifPresent(newDescription -> {
-                    // Prompt for a new priority using ChoiceBox
-                    ChoiceBox<String> priorityChoiceBox = new ChoiceBox<>();
-                    priorityChoiceBox.getItems().addAll("High", "Medium", "Low");
-                    priorityChoiceBox.setValue(selectedProject.getPriority());
+        for (Project project : projects) {
 
-                    Alert priorityDialog = new Alert(Alert.AlertType.CONFIRMATION);
-                    priorityDialog.setTitle("Modify Priority");
-                    priorityDialog.setHeaderText("Select new priority for the project:");
-                    priorityDialog.getDialogPane().setContent(priorityChoiceBox);
+            HBox card = new HBox(10);
+            card.setAlignment(Pos.CENTER);
+            card.setPrefWidth(300);
+            card.setMaxWidth(600);
 
-                    Optional<ButtonType> newPriorityResult = priorityDialog.showAndWait();
+            card.getStyleClass().add("card");
 
-                    ((Optional<?>) newPriorityResult).ifPresent(buttonType -> {
-                        if (buttonType == ButtonType.OK) {
-                            // User confirmed the modification
-                            selectedProject.setName(newName);
-                            selectedProject.setDescription(newDescription);
-                            selectedProject.setPriority(priorityChoiceBox.getValue());
 
-                            // Update other properties like dateStarted and dateEnded similarly.
+            ImageView imageView = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/com/example/projectmanageclient/images/paper_13781926.png"))));
 
-                            // Refresh the TableView if necessary
-                            projectTableView.refresh();
+            imageView.setFitWidth(50);
+            imageView.setFitHeight(50);
 
-                            // You can also display a success message here if needed
-                            Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
-                            successAlert.setTitle("Success");
-                            successAlert.setHeaderText("Project Modified");
-                            successAlert.setContentText("The project has been successfully modified.");
-                            successAlert.showAndWait();
-                        }
-                    });
-                });
+
+
+            TextFlow details = new TextFlow();
+            details.getStyleClass().add("details");
+            details.setLineSpacing(20);
+
+
+            Label name = new Label(project.getName());
+            name.getStyleClass().add("card-title");
+            name.setMaxWidth(200);
+            name.setWrapText(true);
+            details.getChildren().add(name);
+
+            Text descriptionLabel = new Text("\n" + bundle.getString("description") + ": ");
+            descriptionLabel.getStyleClass().add("bold-text");
+            details.getChildren().add(descriptionLabel);
+
+            Text description = new Text(project.getDescription());
+            details.getChildren().add(description);
+
+            Text dateStartedLabel = new Text("\n" + bundle.getString("dateStarted") + ": ");
+            dateStartedLabel.getStyleClass().add("bold-text");
+            details.getChildren().add(dateStartedLabel);
+
+            Text dateStarted = new Text(project.getDateStarted().toString());
+            details.getChildren().add(dateStarted);
+
+            Text dateEndedLabel = new Text("\n" + bundle.getString("dateEnded") + ": ");
+            dateEndedLabel.getStyleClass().add("bold-text");
+            details.getChildren().add(dateEndedLabel);
+
+            Text dateEnded = new Text(project.getDateEnded().toString());
+            details.getChildren().add(dateEnded);
+
+            Text priorityLabel = new Text("\n" + bundle.getString("priority") + ": ");
+            priorityLabel.getStyleClass().add("bold-text");
+            details.getChildren().add(priorityLabel);
+
+            Text priority = new Text(project.getPriority());
+            details.getChildren().add(priority);
+
+
+            card.getChildren().addAll(imageView, details);
+
+            card.setOnMouseClicked(e -> {
+
+                for (Node node : projectContainer.getChildren()) {
+                    if (node instanceof HBox) {
+                        node.getStyleClass().remove("card-selected");
+                    }
+                }
+                card.getStyleClass().add("card-selected");
+
+                if (e.getClickCount() == 2) {
+                    selectedProject = project;
+                    onModifyButtonClick();
+                } else {
+                    selectedProject = project;
+                }
             });
+            if (darkModeToggle.isSelected()) {
+                card.getStyleClass().add("dark");
+            }
+            projectContainer.getChildren().add(card);
         }
     }
 
+
+    @FXML
+    private void onDeleteButtonClick() {
+        ps.deleteProjects(selectedProject.getId());
+        refreshCards();
+    }
+
+
+    public void onModifyButtonClick() {
+        if (selectedProject != null) {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/projectmanageclient/AddView.fxml"));
+                Parent root = loader.load();
+
+                AddViewController addViewController = loader.getController();
+                addViewController.setProjectData(selectedProject);
+                addViewController.setOnSubmitCallback(this::refreshCards);
+
+                Stage stage = new Stage();
+                stage.setScene(new Scene(root));
+                stage.initModality(Modality.APPLICATION_MODAL);
+                stage.setTitle("Edit Project");
+                stage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/com/example/projectmanageclient/images/paper_13781926.png"))));
+                stage.show();
+                addViewController.setDarkMode(darkModeToggle.isSelected());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    private void refreshCards() {
+
+        projectContainer.getChildren().clear();
+
+        populateView();
+    }
+    @FXML
+    private void onAddButtonClick() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/projectmanageclient/AddView.fxml"));
+            Parent root = loader.load();
+
+            AddViewController addViewController = loader.getController();
+            addViewController.setOnSubmitCallback(this::refreshCards);
+
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+
+            stage.initModality(Modality.APPLICATION_MODAL);
+
+            stage.show();
+            stage.setTitle("Add Project");
+            stage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/com/example/projectmanageclient/images/paper_13781926.png"))));
+            addViewController.setDarkMode(darkModeToggle.isSelected());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void changeLanguage(Locale locale) {
+        languageManager.changeLocale(locale);
+        updateTexts();
+        refreshCards();
+    }
 }
+
+
